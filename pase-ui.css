@@ -1,0 +1,182 @@
+/* ═══════════════════════════════════════════════════════════════
+   PASE UI — sistema de estilos base (hereda la identidad de Oído Cocina)
+   Reglas: texto mínimo 12px (cuerpo 15px) · objetivos táctiles ≥ 44px
+   · cero estilos en línea · 3 saltos responsive (600 / 900 / 1200)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. TOKENS ─────────────────────────────────────────────── */
+:root{
+  /* color (mismos nombres que Oído Cocina) */
+  --bg-primary:#ffffff;--bg-secondary:#f5f4f0;--bg-tertiary:#eeede9;
+  --text-primary:#1a1a1a;--text-secondary:#5f5e5a;--text-tertiary:#8a8985;
+  --border:#e0dfd9;--border-md:#c8c7c1;
+  --info-bg:#e6f1fb;--info-text:#185fa5;
+  --warn-bg:#faeeda;--warn-text:#854f0b;
+  --danger-bg:#fcebeb;--danger-text:#a32d2d;
+  --success-bg:#eaf3de;--success-text:#3b6d11;
+  --negro:#1a1a1a;--blanco:#ffffff;--gold:#c9a84c;--focus:#378add;
+
+  /* tipografía: escala fija, nada por debajo de 12px */
+  --fs-xs:12px;   /* etiquetas, badges */
+  --fs-sm:13px;   /* texto secundario */
+  --fs-md:15px;   /* cuerpo */
+  --fs-lg:17px;   /* títulos de tarjeta */
+  --fs-xl:22px;   /* cifras */
+  --fs-2xl:28px;  /* títulos de página */
+  --font:'Karla','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-display:'Playfair Display SC','Georgia',serif;
+
+  /* espaciado: múltiplos de 4 */
+  --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;
+
+  /* forma y movimiento */
+  --radius:8px;--radius-lg:12px;
+  --tap:44px;            /* alto mínimo táctil */
+  --tap-cocina:56px;     /* alto en modo cocina */
+  --shadow-xs:0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm:0 1px 4px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 16px rgba(0,0,0,.1),0 2px 4px rgba(0,0,0,.05);
+  --t:150ms ease;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg-primary:#1e1e1c;--bg-secondary:#2a2a27;--bg-tertiary:#141412;
+    --text-primary:#f0efe9;--text-secondary:#a8a79f;--text-tertiary:#7a7970;
+    --border:#3a3a36;--border-md:#4a4a46;
+    --info-bg:#0c3a5c;--info-text:#7fc3f5;
+    --warn-bg:#4a2e08;--warn-text:#f5c070;
+    --danger-bg:#4a1515;--danger-text:#f08080;
+    --success-bg:#1a3a0a;--success-text:#90c860;
+    --negro:#f0efe9;--blanco:#1e1e1c;
+    --shadow-sm:0 1px 4px rgba(0,0,0,.2),0 1px 2px rgba(0,0,0,.15);
+    --shadow-md:0 4px 16px rgba(0,0,0,.3),0 2px 4px rgba(0,0,0,.2);
+  }
+}
+
+/* ── 2. BASE ───────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);font-size:var(--fs-md);line-height:1.5;
+  background:var(--bg-secondary);color:var(--text-primary);-webkit-font-smoothing:antialiased}
+h1{font-size:var(--fs-2xl);font-weight:600;line-height:1.2}
+h2{font-size:var(--fs-lg);font-weight:600}
+.display{font-family:var(--font-display)}
+.muted{color:var(--text-secondary);font-size:var(--fs-sm)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:var(--radius)}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
+/* ── 3. LAYOUT (contenedor + rejilla que crece con la pantalla) ── */
+.app{max-width:960px;margin:0 auto;padding:var(--sp-4)}
+.stack>*+*{margin-top:var(--sp-3)}
+.mt-3{margin-top:var(--sp-3)}
+.row{display:flex;gap:var(--sp-2);align-items:center;flex-wrap:wrap}
+.row-between{justify-content:space-between}
+.grid{display:grid;gap:var(--sp-3);grid-template-columns:1fr}
+@media(min-width:600px){.grid-2,.grid-3{grid-template-columns:repeat(2,1fr)}}
+.grid-stats{display:grid;gap:var(--sp-2);grid-template-columns:repeat(3,1fr)}
+@media(max-width:599px){.grid-stats .stat{padding:var(--sp-2) var(--sp-3)}.grid-stats .stat-value{font-size:var(--fs-lg)}}
+@media(min-width:900px){.app{max-width:1100px}.grid-3{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1200px){.app{max-width:1280px}}
+
+/* ── 4. BOTONES (todos ≥ 44px; los de solo icono llevan aria-label) ── */
+.btn{min-height:var(--tap);padding:0 var(--sp-5);display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-2);
+  font:500 var(--fs-sm)/1 var(--font);color:var(--blanco);background:var(--negro);border:1px solid var(--negro);
+  border-radius:var(--radius);cursor:pointer;white-space:nowrap;transition:background var(--t),border-color var(--t),transform var(--t)}
+.btn:hover{border-color:var(--gold)}
+.btn:active{transform:scale(.98)}
+.btn-sec{background:var(--bg-primary);color:var(--text-primary);border-color:var(--border-md)}
+.btn-sec:hover{background:var(--bg-tertiary)}
+.btn-danger{background:var(--danger-bg);color:var(--danger-text);border-color:var(--danger-text)}
+.btn-icon{min-width:var(--tap);padding:0;background:var(--bg-primary);color:var(--text-secondary);border:1px solid var(--border-md)}
+.btn-icon.btn-danger{background:var(--danger-bg);color:var(--danger-text);border-color:var(--danger-text)}
+.btn-block{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+
+/* ── 5. FORMULARIOS ────────────────────────────────────────── */
+.field{display:flex;flex-direction:column;gap:var(--sp-1)}
+.field label{font-size:var(--fs-xs);font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em}
+input,select,textarea{width:100%;min-height:var(--tap);padding:var(--sp-2) var(--sp-3);font:var(--fs-md) var(--font);
+  color:var(--text-primary);background:var(--bg-primary);border:1px solid var(--border-md);border-radius:var(--radius);
+  transition:border-color var(--t),box-shadow var(--t)}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.18)}
+
+/* ── 6. TARJETAS, CIFRAS, ETIQUETAS ───────────────────────── */
+.card{background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:var(--sp-4) var(--sp-5);box-shadow:var(--shadow-xs)}
+.card-title{font-size:var(--fs-lg);font-weight:600;margin-bottom:var(--sp-1)}
+.stat{background:var(--bg-primary);border:1px solid var(--border);border-top:3px solid var(--gold);
+  border-radius:var(--radius-lg);padding:var(--sp-3) var(--sp-4)}
+.stat-label{font-size:var(--fs-xs);color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.stat-value{font-size:var(--fs-xl);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.badge{display:inline-block;font-size:var(--fs-xs);font-weight:600;padding:2px var(--sp-2);border-radius:var(--radius)}
+.badge-info{background:var(--info-bg);color:var(--info-text)}
+.badge-warn{background:var(--warn-bg);color:var(--warn-text)}
+.badge-danger{background:var(--danger-bg);color:var(--danger-text)}
+.badge-ok{background:var(--success-bg);color:var(--success-text)}
+.alert{padding:var(--sp-3) var(--sp-4);border-radius:var(--radius);font-size:var(--fs-sm);border-left:4px solid currentColor}
+.alert-warn{background:var(--warn-bg);color:var(--warn-text)}
+.alert-danger{background:var(--danger-bg);color:var(--danger-text)}
+
+/* ── 7. LISTAS Y TABLAS ───────────────────────────────────── */
+.list-item{display:flex;align-items:center;gap:var(--sp-3);min-height:var(--tap);padding:var(--sp-2) var(--sp-3);
+  background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius)}
+.list-item+.list-item{margin-top:var(--sp-2)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--radius-lg);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:var(--fs-sm)}
+th{font-size:var(--fs-xs);text-align:left;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em;
+  padding:var(--sp-2) var(--sp-3);background:var(--bg-secondary)}
+td{padding:var(--sp-3);border-top:1px solid var(--border)}
+
+/* ── 8. MODO COCINA (pantalla grande, manos ocupadas) ─────────
+   Uso: <body class="modo-cocina"> o cualquier contenedor.        */
+.modo-cocina{--fs-sm:16px;--fs-md:19px;--fs-lg:24px;--fs-xl:34px;--tap:var(--tap-cocina)}
+.modo-cocina .card{padding:var(--sp-5)}
+
+/* ── 9. IMPRESIÓN ─────────────────────────────────────────── */
+@media print{
+  body{background:#fff;color:#000}.no-print,.btn{display:none!important}
+  .card{box-shadow:none;break-inside:avoid}
+}
+
+/* ── 10. ACORDEÓN (sin JS: <details name="x"> abre uno y cierra el resto) ── */
+.acc{display:flex;flex-direction:column;gap:var(--sp-2)}
+.acc-item{background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:border-color var(--t)}
+.acc-item[open]{border-color:rgba(201,168,76,.55);border-left:3px solid var(--gold)}
+.acc-item>summary{list-style:none;min-height:var(--tap);display:flex;align-items:center;gap:var(--sp-3);
+  padding:0 var(--sp-4);font-weight:600;font-size:var(--fs-md);cursor:pointer}
+.acc-item>summary::-webkit-details-marker{display:none}
+.acc-item>summary::after{content:'';margin-left:auto;width:8px;height:8px;flex:none;
+  border-right:2px solid var(--text-secondary);border-bottom:2px solid var(--text-secondary);
+  transform:rotate(45deg);transition:transform var(--t)}
+.acc-item[open]>summary::after{transform:rotate(-135deg)}
+.acc-body{padding:var(--sp-3) var(--sp-4) var(--sp-4);border-top:1px solid var(--border)}
+
+/* ── 11. CALENDARIO (render con pase-calendar.js) ─────────── */
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);margin-bottom:var(--sp-3)}
+.cal-title{font-size:var(--fs-lg);text-transform:capitalize}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.cal-dow{background:var(--bg-secondary);text-align:center;padding:var(--sp-2) 0;font-size:var(--fs-xs);font-weight:600;color:var(--text-secondary)}
+.cal-cell{background:var(--bg-primary);min-height:56px;padding:var(--sp-1);display:flex;flex-direction:column;align-items:center;gap:2px;
+  border:0;font:inherit;color:inherit;cursor:pointer;text-align:left;transition:background var(--t)}
+.cal-cell:hover{background:var(--bg-tertiary)}
+.cal-empty{background:var(--bg-tertiary);opacity:.5;cursor:default}
+.cal-num{font-size:var(--fs-sm);font-weight:500;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.cal-today .cal-num{background:var(--negro);color:var(--blanco);font-weight:700}
+.cal-sel{box-shadow:inset 0 0 0 2px var(--gold)}
+.cal-dots{display:flex;gap:3px;flex-wrap:wrap;justify-content:center}
+.cal-dot{width:6px;height:6px;border-radius:50%;background:var(--c,var(--gold))}
+.cal-chip,.cal-more{display:none}
+.cal-detail{margin-top:var(--sp-4)}
+.cal-detail h2{margin-bottom:var(--sp-2);text-transform:capitalize}
+.cal-ev{width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;border-left:4px solid var(--c,var(--gold))}
+.cal-ev strong{display:block;font-size:var(--fs-md)}
+@media(min-width:600px){
+  .cal-cell{min-height:96px;align-items:stretch}
+  .cal-num{align-self:flex-start}
+  .cal-dots{display:none}
+  .cal-chip{display:block;font-size:var(--fs-xs);line-height:1.3;padding:1px 4px;border-radius:4px;color:#fff;
+    background:var(--c,var(--gold));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cal-more{display:block;font-size:var(--fs-xs);color:var(--text-secondary)}
+}
