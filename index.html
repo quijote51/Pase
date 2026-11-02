@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pase UI · muestra</title>
+<link rel="stylesheet" href="pase-ui.css">
+</head><body>
+<div class="app stack">
+  <div class="row row-between">
+    <div><h1 class="display">Pase</h1><p class="muted">Seda Club Hotel · Granada</p></div>
+    <button class="btn btn-icon btn-sec" aria-label="Ajustes">⚙</button>
+  </div>
+
+  <div class="grid-stats">
+    <div class="stat"><div class="stat-label">Eventos hoy</div><div class="stat-value">3</div></div>
+    <div class="stat"><div class="stat-label">Pax total</div><div class="stat-value">128</div></div>
+    <div class="stat"><div class="stat-label">Margen medio</div><div class="stat-value">64%</div></div>
+  </div>
+
+  <div class="card">
+    <div class="row row-between">
+      <div class="card-title">Cóctel Grupo Lactalis</div>
+      <span class="badge badge-danger">HOY</span>
+    </div>
+    <p class="muted">20:00 · Azotea · 56 pax</p>
+    <div class="alert alert-warn mt-3">2 platos sin receta vinculada</div>
+    <div class="row mt-3">
+      <button class="btn">Producción</button>
+      <button class="btn btn-sec">Compras</button>
+      <button class="btn btn-icon btn-danger" aria-label="Eliminar evento">🗑</button>
+    </div>
+  </div>
+
+  <div class="card stack">
+    <div class="card-title">Nuevo evento</div>
+    <div class="grid grid-2">
+      <div class="field"><label for="n">Nombre</label><input id="n" placeholder="Boda García"></div>
+      <div class="field"><label for="p">Pax</label><input id="p" type="number" inputmode="numeric" placeholder="60"></div>
+    </div>
+    <button class="btn btn-block">Guardar evento</button>
+  </div>
+
+  <div class="table-wrap"><table>
+    <thead><tr><th>Ingrediente</th><th>Cantidad</th><th>Ud.</th></tr></thead>
+    <tbody><tr><td>Presa ibérica</td><td>10 080</td><td>g</td></tr>
+    <tr><td>Nata líquida</td><td>1 680</td><td>ml</td></tr></tbody>
+  </table></div>
+
+  <h2>Navegación (acordeón)</h2>
+  <div class="acc">
+    <details class="acc-item" name="menu" open><summary>Inicio</summary><div class="acc-body">Resumen del día y eventos de hoy.</div></details>
+    <details class="acc-item" name="menu"><summary>Producción</summary><div class="acc-body">Fichas por evento y por plato.</div></details>
+    <details class="acc-item" name="menu"><summary>Compras</summary><div class="acc-body">Lista agrupada por proveedor.</div></details>
+  </div>
+
+  <h2>Calendario</h2>
+  <div id="cal"></div>
+</div>
+<script src="pase-calendar.js"></script>
+<script>
+  const h=new Date(), p=n=>String(n).padStart(2,'0'), k=d=>`${h.getFullYear()}-${p(h.getMonth()+1)}-${p(d)}`;
+  PaseCalendar.mount(document.getElementById('cal'),{
+    selected:k(h.getDate()),
+    eventos:[
+      {id:1,nombre:'Cóctel Grupo Lactalis',fecha:k(h.getDate()),hora:'20:00',pax:56,color:'#378ADD'},
+      {id:2,nombre:'Desayuno ejecutivo',fecha:k(h.getDate()),hora:'09:00',pax:20,color:'#D85A30'},
+      {id:3,nombre:'Cena de gala <b>X</b>',fecha:k(Math.min(h.getDate()+3,28)),hora:'21:00',pax:80,color:'#9A3080'},
+      {id:4,nombre:'Brunch',fecha:k(Math.min(h.getDate()+3,28)),hora:'12:00',pax:30,color:'#2E6B47'},
+      {id:5,nombre:'Menú sentado',fecha:k(Math.min(h.getDate()+3,28)),hora:'14:00',pax:40,color:'#7F77DD'}
+    ]});
+</script>
+</body></html>
